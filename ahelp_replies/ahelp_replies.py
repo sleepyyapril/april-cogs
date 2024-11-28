@@ -55,7 +55,7 @@ async def get_user_id(session: aiohttp.ClientSession, username) -> str | None:
 
 async def send_reply(session: aiohttp.ClientSession, server, username: str) -> tuple[int, str] | None:
     userId = await asyncio.wait_for(
-        get_user_id(session, server, username), 
+        get_user_id(session, username), 
         timeout=ACTION_TIMEOUT
     )
 
