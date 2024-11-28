@@ -97,7 +97,7 @@ class ahelp_replies(commands.Cog):
         first_parenthesis = message.author.name.find("(")
         username = starter_message.author.name
 
-        if first_parenthesis != None:
+        if first_parenthesis != -1:
             username = starter_message.author.name[:first_parenthesis - 2]
 
         if username.isspace():
