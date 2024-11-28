@@ -1,7 +1,7 @@
 import aiohttp
 import asyncio
 import discord
-from discord import Message
+from discord import ChannelType, Message
 from redbot.core import checks, commands, Config
 from red_commons.logging import getLogger
 
@@ -92,45 +92,9 @@ class ahelp_replies(commands.Cog):
         self.config.register_guild(**default_guild)
         self.bot = bot
     
-    async def handle_thread(self, message: Message) -> None:
-        pass
-
-    @commands.Cog.listener()
-    async def on_message(self, message: Message) -> None:
-        if message.guild == None:
-            return
-
-        guild_settings = self.config.guild(message.guild)
-
-        servers = await guild_settings.servers()
-        channels = await guild_settings.channels()
-
-        if channels == None:
-            return
-        
-        if servers == None:
-            return
-
-        if channels.get(message.channel.id) == None:
-            return
-        
-        server_id = channels[message.channel.id]
-
-        if servers[server_id] == None:
-            return
-        
-        cur_server = servers[server_id]
-        
-        if message.channel.type == "public_thread":
-            return await self.handle_thread(message)
-        
-        if message.author.bot == False or message.author == self.bot.user:
-            return
-
-        if message.channel.id != guild_settings.channel:
-            return
-        
-        first_parenthesis = message.author.name.find("(")
+    async def handle_thread(self, message: Message, cur_server) -> None:
+        starter_author = message.starter_message.author
+        first_parenthesis = starter_author.name.find("(")
 
         if first_parenthesis == None:
             return
@@ -138,7 +102,7 @@ class ahelp_replies(commands.Cog):
         if first_parenthesis - 2 < 0:
             return
         
-        username = message.author.name[:first_parenthesis - 2]
+        username = starter_author.name[:first_parenthesis - 2]
 
         if username.isspace():
             return
@@ -159,8 +123,43 @@ class ahelp_replies(commands.Cog):
                 await message.channel.send(
                     f"An Unknown error occured while trying to request this server to update, Logging to console...")
                 
-                log.exception(f"An error occurred while trying to reply on server **{server_id.display_name}.")
+                log.exception(f"An error occurred while trying to reply on server **{cur_server.display_name}.")
                 return
+
+    @commands.Cog.listener()
+    async def on_message(self, message: Message) -> None:
+        if message.guild == None:
+            return
+
+        guild_settings = self.config.guild(message.guild)
+
+        servers = await guild_settings.servers()
+        channels = await guild_settings.channels()
+
+        if channels.get(message.channel.id) == None:
+            return
+        
+        server_id = channels[message.channel.id]
+
+        if servers[server_id] == None:
+            return
+        
+        cur_server = servers[server_id]
+        
+        if message.channel.type == ChannelType.public_thread:
+            return await self.handle_thread(message, cur_server)
+        
+        if message.author.bot == False or message.author == self.bot.user:
+            return
+
+        if message.channel.id != guild_settings.channel or message.channel.type != ChannelType.text:
+            return
+        
+        message.create_thread("Replies")
+
+        
+        
+        
     
     @commands.hybrid_group()
     @checks.admin()
