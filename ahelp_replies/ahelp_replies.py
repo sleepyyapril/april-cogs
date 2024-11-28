@@ -206,13 +206,10 @@ class ahelp_replies(commands.Cog):
             await ctx.send("No server matching that identifier was found.")
             return
 
-        if await self.config.guild(ctx.guild).channels() is None:
-            await self.config.guild(ctx.guild).channels.set_raw({})
-
         async with self.config.guild(ctx.guild).channels() as channels:
             channels[ctx.channel.id] = identifier
 
-        await ctx.send(f"Successfully set AHelp relay channel to <#{ctx.channel.id}> for **{servers[identifier].display_name}**!")
+        await ctx.send(f'Successfully set AHelp relay channel to <#{ctx.channel.id}> for **{servers[identifier]["display_name"]}**!')
 
     @ahrcfg.command()
     async def list(self, ctx: commands.Context):
