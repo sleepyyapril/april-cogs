@@ -206,8 +206,7 @@ class ahelp_replies(commands.Cog):
             await ctx.send("No server matching that identifier was found.")
             return
 
-        
-
+        print(await self.config.guild(ctx.guild).channels())
         async with self.config.guild(ctx.guild).channels() as channels:
             channels[ctx.channel.id] = identifier
 
