@@ -142,7 +142,7 @@ class ahelp_replies(commands.Cog):
 
         if channel_to_use.type == ChannelType.public_thread:
             if channel_to_use.starter_message == None or channel_to_use.starter_message.channel == None:
-                message.channel.send("The starter message or channel could not be found. \nWhile I may add support for fetching it in the future, you have to use the command !sendmessage to reply to this ahelp.")
+                await message.channel.send("The starter message or channel could not be found. \nWhile I may add support for fetching it in the future, you have to use the command !sendmessage to reply to this ahelp.")
                 return
             channel_to_use = channel_to_use.starter_message.channel
 
