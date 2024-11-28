@@ -101,8 +101,8 @@ class ahelp_replies(commands.Cog):
 
         guild_settings = self.config.guild(message.guild)
 
-        servers = guild_settings.servers()
-        channels = guild_settings.channels()
+        servers = await guild_settings.servers()
+        channels = await guild_settings.channels()
 
         if channels[message.channel.id] == None:
             return
