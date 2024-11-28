@@ -92,9 +92,8 @@ class ahelp_replies(commands.Cog):
         self.config.register_guild(**default_guild, force_registration=True)
         self.bot = bot
     
-    async def handle_thread(self, message: Message, cur_server) -> None:
-        starter_author = message.starter_message.author
-        first_parenthesis = starter_author.name.find("(")
+    async def handle_thread(self, message: Message, starter_message: Message, cur_server) -> None:
+        first_parenthesis = message.author.name.find("(")
 
         if first_parenthesis == None:
             return
@@ -102,7 +101,7 @@ class ahelp_replies(commands.Cog):
         if first_parenthesis - 2 < 0:
             return
         
-        username = starter_author.name[:first_parenthesis - 2]
+        username = message.author.name[:first_parenthesis - 2]
 
         if username.isspace():
             return
@@ -142,8 +141,8 @@ class ahelp_replies(commands.Cog):
 
         channel_to_use = message.channel
 
-        if message.channel.type == ChannelType.public_thread and channels.get(str(message.starter_message.channel.id)) != None:
-            channel_to_use = message.starter_message.channel
+        if message.channel.type == ChannelType.public_thread and channels.get(str(message.channel.starter_message.channel.id)) != None:
+            channel_to_use = message.channel.starter_message.channel
 
         if channels.get(str(channel_to_use.id)) == None:
             print("Channel is missing")
@@ -158,8 +157,7 @@ class ahelp_replies(commands.Cog):
         cur_server = servers[server_id]
         
         if channel_to_use.type == ChannelType.public_thread:
-            print("in thread???")
-            return await self.handle_thread(message, cur_server)
+            return await self.handle_thread(message, channel_to_use, cur_server)
         
         if message.webhook_id == None or message.author == self.bot.user:
             return
