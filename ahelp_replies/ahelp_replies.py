@@ -2,6 +2,7 @@ import aiohttp
 import asyncio
 import discord
 from discord import ChannelType, Message
+import json
 from redbot.core import checks, commands, Config
 from red_commons.logging import getLogger
 
@@ -64,10 +65,14 @@ async def send_reply(session: aiohttp.ClientSession, server, username: str) -> t
         return
 
     async def load() -> tuple[int, str]:
-        data = str('{"Guid": "' + userId + '", "Text": "(DC) [color=lightblue]Name:[/color] Test", "useronly": false }')
+        data = json.JSONEncoder.encode({
+            "Guid": userId,
+            "Text": "(DC) [color=lightblue]Name:[/color] Test",
+            "UserOnly": False,
+            "WebhookUpdate": True
+        })
         async with session.post(
                 f'http://{server["server_ip"]}/admin/actions/send_bwoink',
-                headers = {"Authorization": "SS14Token " + server["token"]},
                 data = data
             ) as resp:
             return resp.status, await resp.text()
@@ -105,7 +110,7 @@ class ahelp_replies(commands.Cog):
             print("oh")
             return
         
-        async with aiohttp.ClientSession() as session:
+        async with aiohttp.ClientSession(headers = {"Authorization": "SS14Token " + cur_server["token"]}) as session:
             try:
                 status, response = await send_reply(session, cur_server, username)
 
