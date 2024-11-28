@@ -64,10 +64,11 @@ async def send_reply(session: aiohttp.ClientSession, server, username: str) -> t
         return
 
     async def load() -> tuple[int, str]:
+        data = str('{"Guid": "' + userId + '", "Text": "(DC) [color=lightblue]Name:[/color] Test", "useronly": false }')
         async with session.post(
                 f'http://{server["server_ip"]}/admin/actions/send_bwoink',
                 auth=aiohttp.BasicAuth("SS14Token", server["token"]),
-                data='{"Guid": "' + userId + '", "Text": "(DC) [color=lightblue]Name:[/color] Test", "useronly": false }'.encode()
+                data=data.encode()
             ) as resp:
             return resp.status, await resp.text()
 
