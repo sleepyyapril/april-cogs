@@ -112,7 +112,7 @@ class ahelp_replies(commands.Cog):
                 if status != 200:
                     await message.channel.send(f"Failed:\n{status}: {response}")
                 else:
-                    await message.add_reaction('👍')
+                    await message.delete()
             except asyncio.TimeoutError:
                     await message.channel.send("Server timed out.")
                     return
