@@ -157,13 +157,12 @@ class ahelp_replies(commands.Cog):
             return await self.handle_thread(message, cur_server)
         
         if message.webhook_id == None or message.author == self.bot.user:
-            print("not a bot or author is self")
             return
 
         if message.channel.type != ChannelType.text:
             return
         
-        message.create_thread("Replies")
+        await message.create_thread(name = "Replies")
 
     @commands.hybrid_group()
     @checks.admin()
