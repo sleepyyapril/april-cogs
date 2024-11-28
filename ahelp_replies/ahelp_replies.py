@@ -2,6 +2,7 @@ import aiohttp
 import asyncio
 import discord
 from discord import ChannelType, Message
+import json
 from redbot.core import checks, commands, Config
 from red_commons.logging import getLogger
 
@@ -49,9 +50,9 @@ async def get_user_id(session: aiohttp.ClientSession, username) -> str | None:
         if resp.status == 404:
             return
         
-        json_data = await resp.json(content_type='text/html')
-        print(json_data.userId)
-        return json_data.userId
+        response = await resp.text()
+        json_data = json.loads(response)
+        return json_data
 
 async def send_reply(session: aiohttp.ClientSession, server, username: str) -> tuple[int, str] | None:
     userId = await asyncio.wait_for(
