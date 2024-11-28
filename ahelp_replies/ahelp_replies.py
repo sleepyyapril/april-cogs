@@ -140,13 +140,13 @@ class ahelp_replies(commands.Cog):
             print("settings are missing")
             return
 
-        if channels[str(message.channel.id)] == None:
+        if str(message.channel.id) not in channels:
             print("Channel is missing")
             return
         
         server_id = channels[str(message.channel.id)]
 
-        if servers[server_id] is None:
+        if not server_id in servers:
             print("server is missing")
             return
         
@@ -207,7 +207,7 @@ class ahelp_replies(commands.Cog):
 
         servers = await self.config.guild(ctx.guild).servers()
         
-        if len(servers) == 0 or servers[identifier] == None:
+        if len(servers) == 0 or not identifier in servers:
             await ctx.send("No server matching that identifier was found.")
             return
 
@@ -232,7 +232,6 @@ class ahelp_replies(commands.Cog):
         servers_msg = "Servers:"
 
         for identifier, server in servers.items():
-            print(server)
             servers_msg += f'\n``{server.display_name}``, identified as ``{identifier}``'
         
         ctx.send(servers_msg)
