@@ -160,7 +160,7 @@ class ahelp_replies(commands.Cog):
             print("not a bot or author is self")
             return
 
-        if message.channel.id != guild_settings.channel or message.channel.type != ChannelType.text:
+        if message.channel.type != ChannelType.text:
             return
         
         message.create_thread("Replies")
