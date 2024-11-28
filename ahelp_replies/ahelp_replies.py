@@ -94,16 +94,13 @@ class ahelp_replies(commands.Cog):
     
     async def handle_thread(self, message: Message, starter_message: Message, cur_server) -> None:
         first_parenthesis = message.author.name.find("(")
+        username = message.author.name
 
-        if first_parenthesis == None:
-            return
-        
-        if first_parenthesis - 2 < 0:
-            return
-        
-        username = message.author.name[:first_parenthesis - 2]
+        if first_parenthesis != None:
+            username = message.author.name[:first_parenthesis - 2]
 
         if username.isspace():
+            print("oh")
             return
         
         async with aiohttp.ClientSession() as session:
