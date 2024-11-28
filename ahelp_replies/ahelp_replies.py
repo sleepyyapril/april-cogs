@@ -89,7 +89,7 @@ class ahelp_replies(commands.Cog):
             "servers": {},
         }
 
-        self.config.register_guild(**default_guild)
+        self.config.register_guild(**default_guild, force_registration=True)
         self.bot = bot
     
     async def handle_thread(self, message: Message, cur_server) -> None:
@@ -206,7 +206,7 @@ class ahelp_replies(commands.Cog):
             await ctx.send("No server matching that identifier was found.")
             return
 
-        print(await self.config.guild(ctx.guild).channels())
+        
         async with self.config.guild(ctx.guild).channels() as channels:
             channels[ctx.channel.id] = identifier
 
