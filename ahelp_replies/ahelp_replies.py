@@ -85,7 +85,7 @@ class ahelp_replies(commands.Cog):
         self.config = Config.get_conf(self, identifier = 683728)
 
         default_guild = {
-            "channel": {},
+            "channels": {},
             "servers": {},
         }
 
