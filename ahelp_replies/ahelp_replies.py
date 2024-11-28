@@ -47,14 +47,12 @@ ACTION_TIMEOUT = 5
 
 async def get_user_id(session: aiohttp.ClientSession, username) -> str | None:
     print(username)
-    async with session.post(f"https://auth.spacestation14.com/api/query/name?name={username}") as resp:
+    async with session.get(f"https://auth.spacestation14.com/api/query/name?name={username}") as resp:
         if resp.status == 404:
             return
         
-        response = await resp.text()
-        print(f"Response: {response}")
-        json_data = json.loads(response)
-        return json_data
+        response = await resp.json()
+        return response
 
 async def send_reply(session: aiohttp.ClientSession, server, username: str) -> tuple[int, str] | None:
     userId = await asyncio.wait_for(
