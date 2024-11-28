@@ -1,7 +1,7 @@
 import aiohttp
 import asyncio
 import discord
-from discord import ChannelType, Message
+from discord import ThreadChannel, Message
 from redbot.core import checks, commands, Config
 from red_commons.logging import getLogger
 
@@ -121,7 +121,7 @@ class ahelp_replies(commands.Cog):
         
         cur_server = servers[server_id]
         
-        if message.channel.type is not ChannelType.text:
+        if message.channel.type == "public_thread":
             return await self.handle_thread(message)
         
         if message.author.bot == False or message.author == self.bot.user:
