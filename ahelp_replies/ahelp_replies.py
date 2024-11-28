@@ -140,7 +140,7 @@ class ahelp_replies(commands.Cog):
             print("settings are missing")
             return
 
-        if str(message.channel.id) not in channels:
+        if channels.get(str(message.channel.id)) == None:
             print("Channel is missing")
             return
         
