@@ -188,10 +188,6 @@ class ahelp_replies(commands.Cog):
                 await ctx.send("A server with that name already exists.")
                 return
 
-            if view.modal.server_ip.value.contains("/"):
-                await ctx.send("A link containing slashes is unnecessary. Please use the example IP as a reference.")
-                return
-
             cur_servers[view.modal.identifier.value] = {
                 "ip_address": view.modal.ip_address.value,
                 "display_name": view.modal.display_name.value,
