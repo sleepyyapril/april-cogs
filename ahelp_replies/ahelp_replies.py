@@ -231,7 +231,8 @@ class ahelp_replies(commands.Cog):
         servers_msg = "Servers:"
 
         for identifier, server in servers.items():
-            servers_msg += f"\n``{server["display_name"]}``, identified as ``{identifier}``"
+            print(server)
+            servers_msg += f"\n``{server.get("display_name")}``, identified as ``{identifier}``"
         
         ctx.send(servers_msg)
 
