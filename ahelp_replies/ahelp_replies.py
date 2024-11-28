@@ -65,7 +65,7 @@ async def send_reply(session: aiohttp.ClientSession, server, username: str) -> t
         return
 
     async def load() -> tuple[int, str]:
-        data = json.JSONEncoder.encode({
+        data = json.dumps({
             "Guid": userId,
             "Text": "(DC) [color=lightblue]Name:[/color] Test",
             "UserOnly": False,
