@@ -99,7 +99,7 @@ class ahelp_replies(commands.Cog):
     async def on_message(self, message: Message) -> None:
         print(message.guild)
 
-        guild_settings = self.config.guild()
+        guild_settings = self.config.guild(message.guild)
 
         servers = guild_settings.servers()
         channels = guild_settings.channels()
