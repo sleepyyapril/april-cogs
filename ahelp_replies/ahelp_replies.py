@@ -158,12 +158,15 @@ class ahelp_replies(commands.Cog):
         
         cur_server = servers[server_id]
         
-        if message.webhook_id == None or message.author == self.bot.user:
+        if message.author.bot == True:
             return
         
         if message.channel.type == ChannelType.public_thread:
             print("using threads")
             return await self.handle_thread(message, message.channel.starter_message, cur_server)
+
+        if message.webhook_id == None:
+            return
 
         if channel_to_use.type != ChannelType.text:
             return
