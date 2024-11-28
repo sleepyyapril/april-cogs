@@ -133,6 +133,8 @@ class ahelp_replies(commands.Cog):
         servers = await guild_settings.servers()
         channels = await guild_settings.channels()
 
+        print("here")
+
         if servers is None or channels is None:
             print("settings are missing")
             return
