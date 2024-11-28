@@ -45,7 +45,7 @@ class Button(discord.ui.View):
 ACTION_TIMEOUT = 5
 
 async def get_user_id(session: aiohttp.ClientSession, username) -> str | None:
-    async with session.post(f"https://auth.spacestation14.com/api/query/name?name={username}") as resp:
+    async with session.post(f"https://auth.spacestation14.com/api/query/name?name={username}", content_type='application/json; charset=utf-8') as resp:
         if resp.status == 404:
             return
         
