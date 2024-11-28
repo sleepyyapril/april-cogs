@@ -120,7 +120,7 @@ class ahelp_replies(commands.Cog):
                 await message.channel.send(
                     f"An Unknown error occured while trying to request this server to update, Logging to console...")
                 
-                log.exception(f"An error occurred while trying to reply on server **{cur_server.display_name}.")
+                log.exception(f'An error occurred while trying to reply on server **{cur_server["display_name"]}.')
                 return
 
     @commands.Cog.listener()
@@ -240,7 +240,7 @@ class ahelp_replies(commands.Cog):
         servers_msg = "Servers:"
 
         for identifier, server in servers.items():
-            servers_msg += f'\n``{server.display_name}``, identified as ``{identifier}``'
+            servers_msg += f'\n``{server["display_name"]}``, identified as ``{identifier}``'
         
         ctx.send(servers_msg)
 
