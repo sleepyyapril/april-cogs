@@ -65,12 +65,12 @@ async def send_reply(session: aiohttp.ClientSession, server, username: str) -> t
 
     async def load() -> tuple[int, str]:
         data = str('{"Guid": "' + userId + '", "Text": "(DC) [color=lightblue]Name:[/color] Test", "useronly": false }')
-        async with session.get(
+        async with session.post(
                 f'http://{server["server_ip"]}/admin/actions/send_bwoink',
-                auth=aiohttp.BasicAuth("SS14Token", server["token"]),
-                data=data
+                auth = aiohttp.BasicAuth("SS14Token", server["token"]),
+                data = data
             ) as resp:
-            return resp.status, await resp.json()
+            return resp.status, await resp.text()
 
     return await asyncio.wait_for(
         load(), 
@@ -112,6 +112,7 @@ class ahelp_replies(commands.Cog):
                 if status != 200:
                     await message.channel.send(f"Failed:\n{status}: {response}")
                 else:
+                    await message.channel.send(response)
                     await message.delete()
             except asyncio.TimeoutError:
                     await message.channel.send("Server timed out.")
