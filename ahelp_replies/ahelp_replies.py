@@ -137,22 +137,27 @@ class ahelp_replies(commands.Cog):
         channels = await guild_settings.channels()
 
         if servers is None or channels is None:
+            print("settings are missing")
             return
 
-        if channels.get(message.channel.id) == None:
+        if channels[message.channel.id] == None:
+            print("Channel is missing")
             return
         
         server_id = channels[message.channel.id]
 
         if servers[server_id] is None:
+            print("server is missing")
             return
         
         cur_server = servers[server_id]
         
         if message.channel.type == ChannelType.public_thread:
+            print("in thread???")
             return await self.handle_thread(message, cur_server)
         
-        if message.author.bot == False or message.author == self.bot.user:
+        if message.webhook_id == None or message.author == self.bot.user:
+            print("not a bot or author is self")
             return
 
         if message.channel.id != guild_settings.channel or message.channel.type != ChannelType.text:
