@@ -158,7 +158,7 @@ class ahelp_replies(commands.Cog):
         
         cur_server = servers[server_id]
         
-        if message.author.bot == True:
+        if message.author.bot == True and message.webhook_id == None:
             return
         
         if message.channel.type == ChannelType.public_thread:
