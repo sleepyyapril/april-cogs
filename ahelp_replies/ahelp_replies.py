@@ -95,10 +95,10 @@ class ahelp_replies(commands.Cog):
     
     async def handle_thread(self, message: Message, starter_message: Message, cur_server) -> None:
         first_parenthesis = message.author.name.find("(")
-        username = message.author.name
+        username = starter_message.author.name
 
         if first_parenthesis != None:
-            username = message.author.name[:first_parenthesis - 2]
+            username = starter_message.author.name[:first_parenthesis - 2]
 
         if username.isspace():
             print("oh")
