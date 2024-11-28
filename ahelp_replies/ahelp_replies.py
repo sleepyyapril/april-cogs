@@ -189,7 +189,7 @@ class ahelp_replies(commands.Cog):
                 return
 
             cur_servers[view.modal.identifier.value] = {
-                "ip_address": view.modal.ip_address.value,
+                "server_ip": view.modal.server_ip.value,
                 "display_name": view.modal.display_name.value,
                 "token": view.modal.token.value
             }
