@@ -104,7 +104,7 @@ class ahelp_replies(commands.Cog):
         servers = await guild_settings.servers()
         channels = await guild_settings.channels()
 
-        if channels[message.channel.id] == None:
+        if channels.get(message.channel.id) == None:
             return
         
         server_id = channels[message.channel.id]
