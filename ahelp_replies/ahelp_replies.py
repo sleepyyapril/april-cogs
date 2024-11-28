@@ -140,11 +140,11 @@ class ahelp_replies(commands.Cog):
             print("settings are missing")
             return
 
-        if channels[message.channel.id] == None:
+        if channels[str(message.channel.id)] == None:
             print("Channel is missing")
             return
         
-        server_id = channels[message.channel.id]
+        server_id = channels[str(message.channel.id)]
 
         if servers[server_id] is None:
             print("server is missing")
@@ -212,7 +212,7 @@ class ahelp_replies(commands.Cog):
             return
 
         async with self.config.guild(ctx.guild).channels() as channels:
-            channels[ctx.channel.id] = identifier
+            channels[str(ctx.channel.id)] = identifier
 
         await ctx.send(f'Successfully set AHelp relay channel to <#{ctx.channel.id}> for **{servers[identifier]["display_name"]}**!')
 
