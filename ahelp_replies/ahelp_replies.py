@@ -1,7 +1,7 @@
 import aiohttp
 import asyncio
 import discord
-from discord import ThreadChannel, Message
+from discord import Message
 from redbot.core import checks, commands, Config
 from red_commons.logging import getLogger
 
