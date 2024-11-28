@@ -51,6 +51,7 @@ async def get_user_id(session: aiohttp.ClientSession, username) -> str | None:
             return
         
         response = await resp.text()
+        print(response)
         json_data = json.loads(response)
         return json_data
 
