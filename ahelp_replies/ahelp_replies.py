@@ -140,11 +140,16 @@ class ahelp_replies(commands.Cog):
             print("settings are missing")
             return
 
-        if channels.get(str(message.channel.id)) == None:
+        channel_to_use = message.channel
+
+        if message.starter_message and channels.get(str(message.starter_message.channel.id)) != None:
+            channel_to_use = message.starter_message.channel
+
+        if channels.get(str(channel_to_use.id)) == None:
             print("Channel is missing")
             return
         
-        server_id = channels[str(message.channel.id)]
+        server_id = channels[str(channel_to_use.id)]
 
         if not server_id in servers:
             print("server is missing")
@@ -152,14 +157,14 @@ class ahelp_replies(commands.Cog):
         
         cur_server = servers[server_id]
         
-        if message.channel.type == ChannelType.public_thread:
+        if channel_to_use.type == ChannelType.public_thread:
             print("in thread???")
             return await self.handle_thread(message, cur_server)
         
         if message.webhook_id == None or message.author == self.bot.user:
             return
 
-        if message.channel.type != ChannelType.text:
+        if channel_to_use.type != ChannelType.text:
             return
         
         await message.create_thread(name = "Replies")
