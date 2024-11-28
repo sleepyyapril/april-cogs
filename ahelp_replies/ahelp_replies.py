@@ -141,7 +141,7 @@ class ahelp_replies(commands.Cog):
 
         channel_to_use = message.channel
 
-        if message.channel.type == ChannelType.public_thread and channels.get(str(message.channel.starter_message.channel.id)) != None:
+        if channel_to_use.type == ChannelType.public_thread and channels.get(str(channel_to_use.starter_message.channel.id)) != None:
             channel_to_use = message.channel.starter_message.channel
 
         if channels.get(str(channel_to_use.id)) == None:
