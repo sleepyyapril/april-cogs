@@ -64,6 +64,7 @@ async def send_reply(session: aiohttp.ClientSession, server, username: str) -> t
         return
 
     async def load() -> tuple[int, str]:
+        print(userId)
         data = str('{"Guid": "' + userId + '", "Text": "(DC) [color=lightblue]Name:[/color] Test", "useronly": false }')
         async with session.post(
                 f'http://{server["server_ip"]}/admin/actions/send_bwoink',
