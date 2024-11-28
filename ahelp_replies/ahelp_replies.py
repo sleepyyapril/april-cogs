@@ -136,6 +136,9 @@ class ahelp_replies(commands.Cog):
         servers = await guild_settings.servers()
         channels = await guild_settings.channels()
 
+        if channels == None or servers == None:
+            return
+
         if channels.get(message.channel.id) == None:
             return
         
