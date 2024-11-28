@@ -82,7 +82,7 @@ class ahelp_replies(commands.Cog):
 
     def __init__(self, bot, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.config = Config.get_conf(self, identifier = 683758)
+        self.config = Config.get_conf(self, identifier = 683728)
 
         default_guild = {
             "channel": {},
@@ -160,15 +160,11 @@ class ahelp_replies(commands.Cog):
         
         message.create_thread("Replies")
 
-        
-        
-        
-    
     @commands.hybrid_group()
     @checks.admin()
     async def ahrcfg(self, ctx: commands.Context) -> None:
         """
-        Commands for configuring the 
+        Commands for configuring the ahelp replies cog.
         """
         pass
 
@@ -210,8 +206,10 @@ class ahelp_replies(commands.Cog):
             await ctx.send("No server matching that identifier was found.")
             return
 
-        async with self.config.guild(ctx.guild).channels() as channel:
-            channel[ctx.channel.id] = identifier
+        
+
+        async with self.config.guild(ctx.guild).channels() as channels:
+            channels[ctx.channel.id] = identifier
 
         await ctx.send(f"Successfully set AHelp relay channel to <#{ctx.channel.id}> for **{servers[identifier].display_name}**!")
 
