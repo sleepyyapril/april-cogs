@@ -97,7 +97,8 @@ class ahelp_replies(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message: Message) -> None:
-        print(message.guild)
+        if message.guild == None:
+            return
 
         guild_settings = self.config.guild(message.guild)
 
@@ -187,7 +188,7 @@ class ahelp_replies(commands.Cog):
                 await ctx.send("A server with that name already exists.")
                 return
 
-            if view.modal.url.value.contains("/"):
+            if view.modal.server_ip.value.contains("/"):
                 await ctx.send("A link containing slashes is unnecessary. Please use the example IP as a reference.")
                 return
 
