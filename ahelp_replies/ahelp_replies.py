@@ -6,6 +6,7 @@ from redbot.core import checks, commands, Config
 from red_commons.logging import getLogger
 
 log = getLogger("red.april-cogs.ahelpreplies")
+starter_messages = {}
 
 # Input class for the discord modal
 class Input(discord.ui.Modal, title='Input server details'):
@@ -133,16 +134,17 @@ class ahelp_replies(commands.Cog):
         servers = await guild_settings.servers()
         channels = await guild_settings.channels()
 
-        print("here")
-
         if servers is None or channels is None:
             print("settings are missing")
             return
 
         channel_to_use = message.channel
 
-        if channel_to_use.type == ChannelType.public_thread and channels.get(str(channel_to_use.starter_message.channel.id)) != None:
-            channel_to_use = message.channel.starter_message.channel
+        if channel_to_use.type == ChannelType.public_thread:
+            if channel_to_use.starter_message == None or channel_to_use.starter_message.channel == None:
+                message.channel.send("The starter message or channel could not be found. \nWhile I may add support for fetching it in the future, you have to use the command !sendmessage to reply to this ahelp.")
+                return
+            channel_to_use = channel_to_use.starter_message.channel.id
 
         if channels.get(str(channel_to_use.id)) == None:
             print("Channel is missing")
@@ -156,7 +158,7 @@ class ahelp_replies(commands.Cog):
         
         cur_server = servers[server_id]
         
-        if channel_to_use.type == ChannelType.public_thread:
+        if message.channel.type == ChannelType.public_thread:
             print("using threads")
             return await self.handle_thread(message, message.channel.starter_message, cur_server)
         
