@@ -97,8 +97,7 @@ class ahelp_replies(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message: Message) -> None:
-        if message.guild == None:
-            return
+        print(message.guild)
 
         guild_settings = self.config.guild(message.guild.id)
 
