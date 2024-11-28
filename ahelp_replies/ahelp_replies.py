@@ -49,7 +49,7 @@ async def get_user_id(session: aiohttp.ClientSession, username) -> str | None:
         if resp.status == 404:
             return
         
-        json_data = await resp.json(content_type='application/json; charset=utf-8')
+        json_data = await resp.json(content_type='text/html')
         print(json_data.userId)
         return json_data.userId
 
