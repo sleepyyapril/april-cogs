@@ -66,7 +66,7 @@ async def send_reply(session: aiohttp.ClientSession, server, username: str) -> t
 
     async def load() -> tuple[int, str]:
         async with session.post(
-                server["server_ip"] + "/admin/actions/send_bwoink",
+                f'http://{server["server_ip"]}/admin/actions/send_bwoink',
                 auth=aiohttp.BasicAuth("SS14Token", server["token"]),
                 data=b'{"Guid": user, "Text": "(DC) [color=lightblue]Name:[/color] Test", "useronly": false }'
             ) as resp:
