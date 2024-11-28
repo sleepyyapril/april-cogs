@@ -52,7 +52,7 @@ async def get_user_id(session: aiohttp.ClientSession, username) -> str | None:
             return
         
         response = await resp.json()
-        return response
+        return response["userId"]
 
 async def send_reply(session: aiohttp.ClientSession, server, username: str) -> tuple[int, str] | None:
     userId = await asyncio.wait_for(
