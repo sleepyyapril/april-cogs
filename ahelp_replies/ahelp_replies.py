@@ -98,7 +98,7 @@ class ahelp_replies(commands.Cog):
         self.bot = bot
     
     async def handle_thread(self, message: Message, starter_message: Message, cur_server) -> None:
-        first_parenthesis = message.author.name.find("(")
+        first_parenthesis = starter_message.author.name.find("(")
         username = starter_message.author.name
 
         if first_parenthesis != -1:
