@@ -152,23 +152,25 @@ class ahelp_replies(commands.Cog):
         if channels.get(str(channel_to_use.id)) == None:
             return
         
-        server_id = channels[str(channel_to_use.id)]
+        server_ids = channels.get(str(channel_to_use.id))
 
-        if not server_id in servers:
-            return
-        
-        cur_server = servers[server_id]
-        
-        if message.channel.type == ChannelType.public_thread:
-            return await self.handle_thread(message, message.channel.starter_message, cur_server)
+        for idx, server_id in enumerate(server_ids):
+            if servers.get(server_ids) == None:
+                channels[str(channel_to_use.id)].pop(idx)
+                continue
 
-        if message.webhook_id == None:
-            return
+            cur_server = servers[server_id]
+            
+            if message.channel.type == ChannelType.public_thread:
+                return await self.handle_thread(message, message.channel.starter_message, cur_server)
 
-        if channel_to_use.type != ChannelType.text:
-            return
-        
-        await message.create_thread(name = "Replies")
+            if message.webhook_id == None:
+                return
+
+            if channel_to_use.type != ChannelType.text:
+                return
+            
+            await message.create_thread(name = "Replies")
 
     @commands.hybrid_group()
     @checks.admin()
@@ -238,9 +240,17 @@ class ahelp_replies(commands.Cog):
             return
 
         async with self.config.guild(ctx.guild).channels() as channels:
-            channels[str(ctx.channel.id)] = identifier
+            for server_ids in channels:
+                if identifier in server_ids:
+                    idx = channels.index(identifier)
+                    server_ids.pop(idx)
 
-        await ctx.send(f'Successfully set AHelp relay channel to <#{ctx.channel.id}> for **{servers[identifier]["display_name"]}**!')
+            if channels.get(str(ctx.channel.id)) == None:
+                channels[str(ctx.channel.id)] = []
+
+            channels[str(ctx.channel.id)].append(str(ctx.channel.id))
+
+        await ctx.send(f'Successfully added AHelp relay channel <#{ctx.channel.id}> for **{servers[identifier]["display_name"]}**!\nAny previous channel that server had is now replaced.')
 
     @ahrcfg.command()
     async def list(self, ctx: commands.Context):
