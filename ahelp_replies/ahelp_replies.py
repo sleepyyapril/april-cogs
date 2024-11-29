@@ -71,10 +71,7 @@ async def send_reply(session: aiohttp.ClientSession, server, username: str) -> t
             "UserOnly": False,
             "WebhookUpdate": True
         })
-        async with session.post(
-                f'http://{server["server_ip"]}/admin/actions/send_bwoink',
-                data = data
-            ) as resp:
+        async with session.post(f'http://{server["server_ip"]}/admin/actions/send_bwoink', data = data) as resp:
             return resp.status, await resp.text()
 
     return await asyncio.wait_for(
@@ -110,7 +107,9 @@ class ahelp_replies(commands.Cog):
             print("oh")
             return
         
-        async with aiohttp.ClientSession(headers = {"Authorization": "SS14Token " + cur_server["token"]}) as session:
+        async with aiohttp.ClientSession(
+            headers = {'accept': 'application/json', 'Authorization': f"SS14Token {cur_server["token"]}"},
+            timeout=ACTION_TIMEOUT) as session:
             try:
                 status, response = await send_reply(session, cur_server, username)
 
