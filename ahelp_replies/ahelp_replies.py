@@ -213,8 +213,9 @@ class ahelp_replies(commands.Cog):
         """
         
         channels = await self.config.guild(ctx.guild).channels()
+        old_channels = channels.copy()
 
-        for channel_id, channel_linked_identifier in channels.items():
+        for channel_id, channel_linked_identifier in old_channels.items():
             if channel_linked_identifier == identifier:
                 del channels[channel_id]
                 await ctx.send("Channel found, deleting.")
