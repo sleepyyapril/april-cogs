@@ -1,7 +1,7 @@
 import aiohttp
 import asyncio
 import discord
-from discord import ChannelType, Message
+from discord import ChannelType, Message, Role
 import json
 from redbot.core import checks, commands, Config
 from red_commons.logging import getLogger
@@ -64,12 +64,15 @@ async def send_reply(session: aiohttp.ClientSession, message, server, username: 
         return
 
     async def load() -> tuple[int, str]:
+        role: Role = message.author.top_role
         data = json.dumps({
             "Guid": userId,
             "Username": message.author.display_name,
             "Text": message.content,
             "UserOnly": False,
-            "WebhookUpdate": True
+            "WebhookUpdate": True,
+            "RoleName": role.name,
+            "RoleColor": str(role.color)
         })
         session.headers['Authorization'] = f'SS14Token {server["token"]}'
         async with session.post(f'http://{server["server_ip"]}/admin/actions/send_bwoink', data = data) as resp:
