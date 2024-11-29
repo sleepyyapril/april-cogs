@@ -108,8 +108,7 @@ class ahelp_replies(commands.Cog):
             return
         
         async with aiohttp.ClientSession(
-            headers = {'accept': 'application/json', 'Authorization': f'SS14Token {cur_server["token"]}'},
-            timeout=ACTION_TIMEOUT) as session:
+            headers = {'accept': 'application/json', 'Authorization': f'SS14Token {cur_server["token"]}'}) as session:
             try:
                 status, response = await send_reply(session, cur_server, username)
 
@@ -142,6 +141,9 @@ class ahelp_replies(commands.Cog):
         if servers is None or channels is None:
             return
 
+        if message.author.bot == True and message.webhook_id == None:
+            return
+
         channel_to_use = message.channel
 
         if channel_to_use.type == ChannelType.public_thread:
@@ -158,9 +160,6 @@ class ahelp_replies(commands.Cog):
             return
         
         cur_server = servers[server_id]
-        
-        if message.author.bot == True and message.webhook_id == None:
-            return
         
         if message.channel.type == ChannelType.public_thread:
             return await self.handle_thread(message, message.channel.starter_message, cur_server)
