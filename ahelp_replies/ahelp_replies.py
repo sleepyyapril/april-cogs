@@ -16,7 +16,7 @@ class Input(discord.ui.Modal, title='Input server details'):
                                  placeholder='Grimbly Station',
                                  required = True)
     server_ip = discord.ui.TextInput(label='Server IP',
-                                 placeholder='localhost:1212',
+                                 placeholder='localhost:1212 (DO NOT USE A DOMAIN)',
                                  required=True)
     token = discord.ui.TextInput(label='API Token',
                                  placeholder='Server\'s api.token value in server_config.toml',
