@@ -140,7 +140,8 @@ class ahelp_replies(commands.Cog):
         if servers is None or channels is None:
             return
 
-        
+        if message.webhook_id == None and message.author.bot == True:
+            return
 
         channel_to_use = message.channel
 
