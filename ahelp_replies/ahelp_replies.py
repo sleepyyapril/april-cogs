@@ -205,6 +205,20 @@ class ahelp_replies(commands.Cog):
             }
 
         await ctx.send("Server added successfully.")
+    
+    @ahrcfg.command()
+    async def remove(self, ctx: commands.Context, identifier: str) -> None:
+        """
+        Removes a server.
+        """
+        
+        async with self.config.guild(ctx.guild).servers() as servers:
+            if not servers.get(identifier):
+                await ctx.send("No server found.")
+                return
+            del servers[identifier]
+
+        await ctx.send("Server removed successfully.")
 
     @ahrcfg.command()
     async def use_channel(self, ctx: commands.Context, identifier: str) -> None:
