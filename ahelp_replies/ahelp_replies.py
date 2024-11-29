@@ -102,7 +102,7 @@ class ahelp_replies(commands.Cog):
         username = starter_message.author.name
 
         if first_parenthesis != -1:
-            username = starter_message.author.name[:first_parenthesis - 2]
+            username = starter_message.author.name[:first_parenthesis - 1]
 
         print(username)
 
