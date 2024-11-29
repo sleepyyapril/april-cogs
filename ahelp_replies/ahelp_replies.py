@@ -157,7 +157,7 @@ class ahelp_replies(commands.Cog):
         if message.webhook_id == None:
             return
 
-        if channel_to_use.type == ChannelType.text:
+        if message.channel.type == ChannelType.text:
             await message.create_thread(name = "Replies")
 
         for idx, server_id in enumerate(server_ids):
