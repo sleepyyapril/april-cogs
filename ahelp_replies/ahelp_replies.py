@@ -104,10 +104,7 @@ class ahelp_replies(commands.Cog):
         if first_parenthesis != -1:
             username = starter_message.author.name[:first_parenthesis - 1]
 
-        print(username)
-
         if username.isspace():
-            print("oh")
             return
         
         async with aiohttp.ClientSession(headers = {'accept': 'application/json'}) as session:
