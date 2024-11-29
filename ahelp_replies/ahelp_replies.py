@@ -212,13 +212,14 @@ class ahelp_replies(commands.Cog):
         Removes a server.
         """
         
-        channels = await self.config.guild(ctx.guild).channels()
-        old_channels = channels.copy()
+        async with self.config.guild(ctx.guild).channels() as channels:
+            old_channels = channels.copy()
+            for channel_id, channel_linked_identifier in old_channels.items():
+                if channel_linked_identifier == identifier:
+                    del channels[channel_id]
+                    await ctx.send("Channel found, deleting.")
 
-        for channel_id, channel_linked_identifier in old_channels.items():
-            if channel_linked_identifier == identifier:
-                del channels[channel_id]
-                await ctx.send("Channel found, deleting.")
+            old_channels = None
 
         async with self.config.guild(ctx.guild).servers() as servers:
             if not servers.get(identifier):
