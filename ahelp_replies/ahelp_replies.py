@@ -46,7 +46,6 @@ class Button(discord.ui.View):
 ACTION_TIMEOUT = 5
 
 async def get_user_id(session: aiohttp.ClientSession, username) -> str | None:
-    print(username)
     async with session.get(f"https://auth.spacestation14.com/api/query/name?name={username}") as resp:
         if resp.status == 404:
             return
@@ -67,7 +66,7 @@ async def send_reply(session: aiohttp.ClientSession, message, server, username: 
     async def load() -> tuple[int, str]:
         data = json.dumps({
             "Guid": userId,
-            "Username": message.author.name,
+            "Username": message.author.display_name,
             "Text": message.content,
             "UserOnly": False,
             "WebhookUpdate": True
@@ -116,7 +115,6 @@ class ahelp_replies(commands.Cog):
                 if status != 200:
                     await message.channel.send(f"Failed:\n{status}: {response}")
                 else:
-                    await message.channel.send(response)
                     await message.delete()
             except asyncio.TimeoutError:
                     await message.channel.send("Server timed out.")
