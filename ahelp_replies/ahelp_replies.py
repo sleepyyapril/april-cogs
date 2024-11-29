@@ -250,7 +250,7 @@ class ahelp_replies(commands.Cog):
             if channels.get(str(ctx.channel.id)) == None:
                 channels[str(ctx.channel.id)] = []
 
-            channels[str(ctx.channel.id)].append(str(ctx.channel.id))
+            channels[str(ctx.channel.id)].append(identifier)
 
         await ctx.send(f'Successfully added AHelp relay channel <#{ctx.channel.id}> for **{servers[identifier]["display_name"]}**!\nAny previous channel that server had is now replaced.')
 
