@@ -54,7 +54,7 @@ async def get_user_id(session: aiohttp.ClientSession, username) -> str | None:
         response = await resp.json()
         return response["userId"]
 
-async def send_reply(session: aiohttp.ClientSession, server, username: str) -> tuple[int, str] | None:
+async def send_reply(session: aiohttp.ClientSession, server, admin, username: str) -> tuple[int, str] | None:
     userId = await asyncio.wait_for(
         get_user_id(session, username), 
         timeout=ACTION_TIMEOUT
@@ -67,6 +67,7 @@ async def send_reply(session: aiohttp.ClientSession, server, username: str) -> t
     async def load() -> tuple[int, str]:
         data = json.dumps({
             "Guid": userId,
+            "Username": admin.name,
             "Text": "(DC) [color=lightblue]Name:[/color] Test",
             "UserOnly": False,
             "WebhookUpdate": True
@@ -110,7 +111,7 @@ class ahelp_replies(commands.Cog):
         
         async with aiohttp.ClientSession(headers = {'accept': 'application/json'}) as session:
             try:
-                status, response = await send_reply(session, cur_server, username)
+                status, response = await send_reply(session, cur_server, message.author, username)
 
                 if status != 200:
                     await message.channel.send(f"Failed:\n{status}: {response}")
