@@ -71,8 +71,8 @@ async def send_reply(session: aiohttp.ClientSession, server, username: str) -> t
             "UserOnly": False,
             "WebhookUpdate": True
         })
-        session.headers['Authorization'] = f'SS14Token exampletoken'
-        async with session.post(f'https://frontier.myzumi.dev/api/open/debug/post', data = data) as resp:
+        session.headers['Authorization'] = f'SS14Token {server["token"]}'
+        async with session.post(f'http://{server["server_ip"]}/admin/actions/send_bwoink', data = data) as resp:
             return resp.status, await resp.text()
 
     return await asyncio.wait_for(
