@@ -155,7 +155,7 @@ class ahelp_replies(commands.Cog):
         server_ids = channels.get(str(channel_to_use.id))
 
         for idx, server_id in enumerate(server_ids):
-            if servers.get(server_ids) == None:
+            if servers.get(server_id) == None:
                 channels[str(channel_to_use.id)].pop(idx)
                 continue
 
