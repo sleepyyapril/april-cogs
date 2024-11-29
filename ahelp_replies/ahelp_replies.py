@@ -154,6 +154,12 @@ class ahelp_replies(commands.Cog):
         
         server_ids = channels.get(str(channel_to_use.id))
 
+        if message.webhook_id == None:
+            return
+
+        if channel_to_use.type == ChannelType.text:
+            await message.create_thread(name = "Replies")
+
         for idx, server_id in enumerate(server_ids):
             if servers.get(server_id) == None:
                 channels[str(channel_to_use.id)].pop(idx)
@@ -163,14 +169,6 @@ class ahelp_replies(commands.Cog):
             
             if message.channel.type == ChannelType.public_thread:
                 return await self.handle_thread(message, message.channel.starter_message, cur_server)
-
-            if message.webhook_id == None:
-                return
-
-            if channel_to_use.type != ChannelType.text:
-                return
-            
-            await message.create_thread(name = "Replies")
 
     @commands.hybrid_group()
     @checks.admin()
