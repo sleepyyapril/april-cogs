@@ -214,9 +214,10 @@ class ahelp_replies(commands.Cog):
         
         channels = await self.config.guild(ctx.guild).channels()
 
-        if channels.get(identifier):
-            del channels[identifier]
-            await ctx.send("Channel data found, deleting.")
+        for channel_id, channel_linked_identifier in channels.items():
+            if channel_linked_identifier == identifier:
+                del channels[channel_id]
+                await ctx.send("Channel found, deleting.")
 
         async with self.config.guild(ctx.guild).servers() as servers:
             if not servers.get(identifier):
