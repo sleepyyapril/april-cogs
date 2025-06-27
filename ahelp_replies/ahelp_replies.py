@@ -74,6 +74,9 @@ async def send_reply(session: aiohttp.ClientSession, message, server, username: 
             "RoleName": role.name,
             "RoleColor": str(role.color)
         })
+
+        print(server["token"]);
+        
         session.headers['Authorization'] = f'SS14Token {server["token"]}'
         async with session.post(f'http://{server["server_ip"]}/admin/actions/send_bwoink', data = data) as resp:
             return resp.status, await resp.text()
