@@ -3,11 +3,40 @@ import asyncio
 import discord
 from discord import ChannelType, Message, Role
 import json
-from redbot.core import checks, commands, Config
+import os
+import ssl
+from pathlib import Path
+from redbot.core import checks, commands, Config, data_manager
 from red_commons.logging import getLogger
+from dotenv import load_dotenv
+
+# Load environment variables from Red's cog data directory
+# This looks for .env in: Red's base directory, then the cog's data directory
+cog_data_path = data_manager.cog_data_path(raw_name="ahelp_replies")
+env_file = cog_data_path / ".env"
+if env_file.exists():
+    load_dotenv(env_file)
+else:
+    # Fallback to current working directory (Red's base directory)
+    load_dotenv()
 
 log = getLogger("red.april-cogs.ahelpreplies")
 starter_messages = {}
+
+# Environment configuration
+VERIFY_SSL = os.getenv('VERIFY_SSL', 'true').lower() == 'true'
+ACTION_TIMEOUT = int(os.getenv('ACTION_TIMEOUT', '5'))
+AUTH_API_URL = os.getenv('AUTH_API_URL', 'https://auth.spacestation14.com')
+
+# Create SSL context if SSL verification is disabled
+def get_ssl_context():
+    if VERIFY_SSL:
+        return None  # Use default SSL verification
+    else:
+        ssl_context = ssl.create_default_context()
+        ssl_context.check_hostname = False
+        ssl_context.verify_mode = ssl.CERT_NONE
+        return ssl_context
 
 # Input class for the discord modal
 class Input(discord.ui.Modal, title='Input server details'):
@@ -43,10 +72,9 @@ class Button(discord.ui.View):
         await self.modal.wait()
         self.stop()
 
-ACTION_TIMEOUT = 5
-
 async def get_user_id(session: aiohttp.ClientSession, username) -> str | None:
-    async with session.get(f"https://auth.spacestation14.com/api/query/name?name={username}") as resp:
+    ssl_context = get_ssl_context()
+    async with session.get(f"{AUTH_API_URL}/api/query/name?name={username}", ssl=ssl_context) as resp:
         if resp.status == 404:
             return
         
@@ -76,7 +104,8 @@ async def send_reply(session: aiohttp.ClientSession, message, server, username: 
         })
         
         session.headers['Authorization'] = f'SS14Token {server["token"]}'
-        async with session.post(f'http://{server["server_ip"]}/admin/actions/send_bwoink', data = data) as resp:
+        ssl_context = get_ssl_context()
+        async with session.post(f'http://{server["server_ip"]}/admin/actions/send_bwoink', data = data, ssl=ssl_context) as resp:
             return resp.status, await resp.text()
 
     return await asyncio.wait_for(
