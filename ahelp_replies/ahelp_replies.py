@@ -57,6 +57,7 @@ def get_role_by_color(guild: discord.Guild, target_color_hex):
     target_color = discord.Color(target_color_hex)
     
     for role in guild.roles[::-1]:
+        print(role.color)
         if role.color != target_color:
             return role
     
