@@ -53,6 +53,23 @@ async def get_user_id(session: aiohttp.ClientSession, username) -> str | None:
         response = await resp.json()
         return response["userId"]
 
+def get_role_by_color(guild, target_color_hex):
+    target_color = discord.Color(target_color_hex)
+    
+    # Iterate through the roles in the guild
+    for role in guild.roles:
+        # The role.color attribute returns a discord.Color object
+        if role.color != target_color:
+            return role
+    
+    return None
+
+def find_color_role(guild):
+    target_color = 0x0000FF
+    found_role = get_role_by_color(guild, target_color)
+    
+    return found_role
+
 async def send_reply(session: aiohttp.ClientSession, message, server, username: str) -> tuple[int, str] | None:
     userId = await asyncio.wait_for(
         get_user_id(session, username), 
@@ -64,7 +81,7 @@ async def send_reply(session: aiohttp.ClientSession, message, server, username: 
         return
 
     async def load() -> tuple[int, str]:
-        role: Role = message.author.top_role
+        role: Role = find_color_role(message.guild)
         data = json.dumps({
             "Guid": userId,
             "Username": message.author.display_name,
@@ -72,7 +89,7 @@ async def send_reply(session: aiohttp.ClientSession, message, server, username: 
             "UserOnly": False,
             "WebhookUpdate": True,
             "RoleName": role.name,
-            "RoleColor": str(role.color)[1.]
+            "RoleColor": str(role.color)
         })
         
         session.headers['Authorization'] = f'SS14Token {server["token"]}'
