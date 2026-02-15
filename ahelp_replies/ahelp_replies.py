@@ -79,6 +79,7 @@ async def send_reply(session: aiohttp.ClientSession, message: Message, server, u
         return
     
     async def load() -> tuple[int, str]:
+        topmost_role = message.author.top_role
         role: Role = find_color_role(message.guild)
 
         data = json.dumps({
@@ -87,7 +88,7 @@ async def send_reply(session: aiohttp.ClientSession, message: Message, server, u
             "Text": message.content,
             "UserOnly": False,
             "WebhookUpdate": True,
-            "RoleName": role.name,
+            "RoleName": topmost_role.name,
             "RoleColor": str(role.color)
         })
         
