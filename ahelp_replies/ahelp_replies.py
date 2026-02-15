@@ -57,7 +57,6 @@ def get_role_by_color(guild: discord.Guild, target_color_hex):
     target_color = discord.Color(target_color_hex)
     
     for role in guild.roles[::-1]:
-        print(role.color)
         if role.color != target_color:
             return role
     
@@ -69,7 +68,7 @@ def find_color_role(guild):
     
     return found_role
 
-async def send_reply(session: aiohttp.ClientSession, message, server, username: str) -> tuple[int, str] | None:
+async def send_reply(session: aiohttp.ClientSession, message: Message, server, username: str) -> tuple[int, str] | None:
     userId = await asyncio.wait_for(
         get_user_id(session, username), 
         timeout=ACTION_TIMEOUT
@@ -78,9 +77,12 @@ async def send_reply(session: aiohttp.ClientSession, message, server, username: 
     if userId == None:
         log.warning("No userId found.")
         return
-
+    
     async def load() -> tuple[int, str]:
         role: Role = find_color_role(message.guild)
+
+        await message.channel.send("role color: " + str(role.color))
+
         data = json.dumps({
             "Guid": userId,
             "Username": message.author.display_name,
