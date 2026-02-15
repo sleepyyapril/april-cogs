@@ -72,7 +72,7 @@ async def send_reply(session: aiohttp.ClientSession, message, server, username: 
             "UserOnly": False,
             "WebhookUpdate": True,
             "RoleName": role.name,
-            "RoleColor": str(role.color)
+            "RoleColor": str(role.color)[1.]
         })
         
         session.headers['Authorization'] = f'SS14Token {server["token"]}'
