@@ -53,12 +53,10 @@ async def get_user_id(session: aiohttp.ClientSession, username) -> str | None:
         response = await resp.json()
         return response["userId"]
 
-def get_role_by_color(guild, target_color_hex):
+def get_role_by_color(guild: discord.Guild, target_color_hex):
     target_color = discord.Color(target_color_hex)
     
-    # Iterate through the roles in the guild
-    for role in guild.roles:
-        # The role.color attribute returns a discord.Color object
+    for role in guild.roles[::-1]:
         if role.color != target_color:
             return role
     
