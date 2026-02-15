@@ -63,7 +63,7 @@ def get_role_by_color(guild: discord.Guild, target_color_hex):
     return None
 
 def find_color_role(guild):
-    target_color = 0x0000FF
+    target_color = 0x000000
     found_role = get_role_by_color(guild, target_color)
     
     return found_role
@@ -80,8 +80,6 @@ async def send_reply(session: aiohttp.ClientSession, message: Message, server, u
     
     async def load() -> tuple[int, str]:
         role: Role = find_color_role(message.guild)
-
-        await message.channel.send("role color: " + str(role.color))
 
         data = json.dumps({
             "Guid": userId,
