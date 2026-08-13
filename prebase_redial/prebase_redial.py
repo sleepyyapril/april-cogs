@@ -14,12 +14,12 @@ class prebase_redial(commands.Cog):
     headers = {"Content-Type": "application/json; charset=utf-8", "Authorization": "SS14Token "}
 
     @app_commands.command()
-    @app_commands.admins()
+    @app_commands.admin()
     @app_commands.describe(event_description="A summary of the event.")
     async def start_event(self, interaction: discord.Interaction, event_description: str):
         await interaction.response.send_message(f"Starting an event: {event_description}", ephemeral=True)
 
     @app_commands.command()
-    @app_commands.admins()
+    @app_commands.admin()
     async def clear_events(self, interaction: discord.Interaction):
-        await interaction.response.send_message(f"Clearing any events", ephemeral=True)
+        await interaction.response.send_message("Clearing any events.", ephemeral=True)
