@@ -1,0 +1,8 @@
+{
+    "author" : ["sleepyyapril"],
+    "install_msg" : "Requires https://github.com/TheDenSS14/TheDen/pull/2725/commits/0d9705fe3dd1c28d2aa9eb5c4134ef683eb13422",
+    "name" : "SS14 External Event Signal",
+    "short" : "Allows admins to signal the start of an event on another server.",
+    "description" : "Allows admins to signal the start of an event on another server.",
+    "tags" : ["Space Station 14", "SS14", "SS13", "Space Station 13", "ahelp", "admin", "admin tooling"]
+}
