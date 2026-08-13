@@ -1,6 +1,6 @@
 import discord
 
-from redbot.core import commands, app_commands
+from redbot.core import checks, commands, app_commands
 
 data = {
     "Address": "ss14://51.222.244.125:1212",
@@ -13,13 +13,18 @@ class prebase_redial(commands.Cog):
 
     headers = {"Content-Type": "application/json; charset=utf-8", "Authorization": "SS14Token "}
 
-    @app_commands.command()
-    @commands.admin()
-    @app_commands.describe(event_description="A summary of the event.")
+    @commands.command()
+    @checks.admin()
     async def start_event(self, interaction: discord.Interaction, event_description: str):
+        """
+        Starts an event on prebase.
+        """
         await interaction.response.send_message(f"Starting an event: {event_description}", ephemeral=True)
 
-    @app_commands.command()
-    @commands.admin()
+    @commands.command()
+    @checks.admin()
     async def clear_events(self, interaction: discord.Interaction):
+        """
+        Clears any event on prebase.
+        """
         await interaction.response.send_message("Clearing any events.", ephemeral=True)
