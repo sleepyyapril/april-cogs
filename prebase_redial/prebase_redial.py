@@ -19,7 +19,7 @@ class prebase_redial(commands.Cog):
         """
         Starts an event on prebase.
         """
-        await ctx.send(f"Starting an event: {event_description}", ephemeral=True)
+        await ctx.reply(f"Starting an event: {event_description}")
 
     @commands.command()
     @checks.admin()
@@ -27,4 +27,4 @@ class prebase_redial(commands.Cog):
         """
         Clears any event on prebase.
         """
-        await ctx.send.send_message("Clearing any events.", ephemeral=True)
+        await ctx.reply("Clearing any events.")
