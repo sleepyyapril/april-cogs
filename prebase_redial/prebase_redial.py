@@ -15,16 +15,16 @@ class prebase_redial(commands.Cog):
 
     @commands.command()
     @checks.admin()
-    async def start_event(self, interaction: discord.Interaction, event_description: str):
+    async def start_event(self, ctx, event_description: str):
         """
         Starts an event on prebase.
         """
-        await interaction.response.send_message(f"Starting an event: {event_description}", ephemeral=True)
+        await ctx.send(f"Starting an event: {event_description}", ephemeral=True)
 
     @commands.command()
     @checks.admin()
-    async def clear_events(self, interaction: discord.Interaction):
+    async def clear_events(self, ctx):
         """
         Clears any event on prebase.
         """
-        await interaction.response.send_message("Clearing any events.", ephemeral=True)
+        await ctx.send.send_message("Clearing any events.", ephemeral=True)
